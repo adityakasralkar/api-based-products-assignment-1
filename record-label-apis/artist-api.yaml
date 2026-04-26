@@ -1,0 +1,237 @@
+openapi: 3.1.1
+
+info:
+  title: Record Label Artist API
+  version: 1.0.0
+  description: API for managing artists of a record label.
+
+servers:
+  - url: https://api.recordlabel.com/v1
+
+security:
+  - basicAuth: []
+
+paths:
+  /artists:
+    get:
+      summary: Get list of artists
+      description: Returns a paginated list of artists from the record label database.
+      parameters:
+        - name: offset
+          in: query
+          required: false
+          description: Page number (starting position of results).
+          schema:
+            type: integer
+            default: 0
+            minimum: 0
+
+        - name: limit
+          in: query
+          required: false
+          description: Number of artists to return per page.
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+            maximum: 100
+
+      responses:
+        "200":
+          description: Artists returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ArtistListResponse"
+
+        "400":
+          description: Invalid offset or limit value.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+        "401":
+          description: Unauthorized - invalid or missing credentials.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+    post:
+      summary: Add a new artist
+      description: Adds a new artist to the record label database.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewArtist"
+
+      responses:
+        "201":
+          description: Artist created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Artist"
+
+        "400":
+          description: Invalid artist data provided.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+        "401":
+          description: Unauthorized - invalid or missing credentials.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+        "409":
+          description: Artist with this username already exists.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /artists/{artistname}:
+    get:
+      summary: Get a specific artist by name
+      description: Returns details of one specific artist using their name as a path parameter.
+      parameters:
+        - name: artistname
+          in: path
+          required: true
+          description: The name of the artist to retrieve.
+          schema:
+            type: string
+          example: Arijit Singh
+
+      responses:
+        "200":
+          description: Artist found successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Artist"
+
+        "401":
+          description: Unauthorized - invalid or missing credentials.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+        "404":
+          description: Artist not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+        "500":
+          description: Internal server error.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+
+  schemas:
+    Artist:
+      type: object
+      description: Artist object returned from the database.
+      properties:
+        id:
+          type: integer
+          example: 1
+        artistName:
+          type: string
+          example: Arijit Singh
+        genre:
+          type: string
+          example: Bollywood
+        albumsPublished:
+          type: integer
+          example: 8
+        username:
+          type: string
+          example: arijitsingh
+      required:
+        - artistName
+        - genre
+        - albumsPublished
+        - username
+
+    NewArtist:
+      type: object
+      description: Artist data sent by client when creating a new artist.
+      properties:
+        artistName:
+          type: string
+          example: Shreya Ghoshal
+        genre:
+          type: string
+          example: Classical
+        albumsPublished:
+          type: integer
+          example: 5
+        username:
+          type: string
+          example: shreyaghoshal
+      required:
+        - artistName
+        - genre
+        - albumsPublished
+        - username
+
+    ArtistListResponse:
+      type: object
+      description: Paginated response containing list of artists.
+      properties:
+        offset:
+          type: integer
+          example: 0
+        limit:
+          type: integer
+          example: 10
+        total:
+          type: integer
+          example: 50
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Artist"
+
+    Error:
+      type: object
+      description: Standard error response.
+      properties:
+        status:
+          type: integer
+          example: 404
+        message:
+          type: string
+          example: Artist not found
