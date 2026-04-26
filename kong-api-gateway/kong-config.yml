@@ -1,0 +1,22 @@
+_format_version: "3.0"
+_transform: true
+
+services:
+  - name: mock-book-api
+    url: http://mock-api:3000
+    routes:
+      - name: mock-book-api-route
+        paths:
+          - /api
+        strip_path: true
+
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 5
+          policy: local
+          limit_by: ip
+
+      - name: request-size-limiting
+        config:
+          allowed_payload_size: 1

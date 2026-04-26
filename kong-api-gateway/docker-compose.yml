@@ -1,0 +1,27 @@
+services:
+  mock-api:
+    image: node:20-alpine
+    container_name: mock-api
+    working_dir: /app
+    volumes:
+      - ./mock-api:/app
+    command: node server.js
+    ports:
+      - "3000:3000"
+
+  kong:
+    image: kong:3.8
+    container_name: kong-gateway
+    depends_on:
+      - mock-api
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /kong/declarative/kong-config.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+    volumes:
+      - ./kong-config.yml:/kong/declarative/kong-config.yml
+    ports:
+      - "8000:8000"
+      - "8001:8001"

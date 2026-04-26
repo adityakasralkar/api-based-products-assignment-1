@@ -12,9 +12,17 @@ record-label-api-system/
 │
 ├── README.md                        
 │
-└── record-label-apis/
-    ├── artist-api.yaml              ← Q1: OpenAPI 3.1.1 Specification
-    └── README.md                    ← Q1: How to view the spec
+├── record-label-apis/
+│   ├── artist-api.yaml              ← Q1: OpenAPI 3.1.1 Specification
+│   └── README.md                    ← Q1: How to view the spec
+│
+└── kong-api-gateway/
+    ├── README.md                    ← Q2: Setup and usage instructions
+    ├── kong-config.yml              ← Q2: KONG Gateway Configuration
+    ├── docker-compose.yml           ← Q2: Docker setup
+    ├── mock-api/
+    │   └── server.js                ← Q2: Mock API server
+    └── test-rate-limit.js           ← Q2: Rate limit test script
 ```
 
 ---
@@ -31,6 +39,22 @@ Designed a complete OpenAPI 3.1.1 specification for a Record Label API that incl
 - Reusable schemas using the `components/schemas` section
 
 📁 See `/record-label-apis/README.md` for instructions on how to view the spec.
+
+---
+
+## Q2 — KONG API Gateway Summary
+
+Configured KONG API Gateway with:
+
+- Rate Limiting Plugin — restricts number of requests per minute per client
+- Request Size Limiting Plugin — restricts oversized request payloads
+- DB-less mode using a declarative `kong-config.yml` file
+- Docker used to run KONG locally via `docker-compose.yml`
+- A mock API server to test the gateway
+- A test script to verify rate limiting behaviour
+- Screenshots of all commands and test results included in the folder's README
+
+📁 See `/kong-api-gateway/README.md` for setup and configuration instructions.
 
 ---
 
