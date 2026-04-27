@@ -8,21 +8,37 @@ This repository contains solutions for all three questions of the assignment. Ea
 ## Project Structure
 
 ```
-record-label-api-system/
+api-based-products-assignment-1/
 │
-├── README.md                        
+├── README.md
 │
 ├── record-label-apis/
-│   ├── artist-api.yaml              ← Q1: OpenAPI 3.1.1 Specification
-│   └── README.md                    ← Q1: How to view the spec
+│   ├── artist-api.yaml
+│   └── README.md
 │
-└── kong-api-gateway/
-    ├── README.md                    ← Q2: Setup and usage instructions
-    ├── kong-config.yml              ← Q2: KONG Gateway Configuration
-    ├── docker-compose.yml           ← Q2: Docker setup
-    ├── mock-api/
-    │   └── server.js                ← Q2: Mock API server
-    └── test-rate-limit.js           ← Q2: Rate limit test script
+├── kong-api-gateway/
+│   ├── README.md
+│   ├── kong-config.yml
+│   ├── docker-compose.yml
+│   ├── mock-api/
+│   │   └── server.js
+│   └── test-rate-limit.js
+│
+└── book-info-service/
+    ├── README.md
+    ├── package.json
+    ├── server.js
+    ├── data/
+    │   └── books.json
+    ├── services/
+    │   └── book.service.js
+    ├── rest/
+    │   └── books.routes.js
+    ├── rpc/
+    │   └── rpc.routes.js
+    └── graphql/
+        ├── schema.js
+        └── resolver.js
 ```
 
 ---
@@ -57,6 +73,46 @@ Configured KONG API Gateway with:
 📁 See `/kong-api-gateway/README.md` for setup and configuration instructions.
 
 ---
+
+## Q3 — Book Info Service Summary
+
+Built a Book Info Service using three API paradigms over the same book data.
+
+Implemented endpoints:
+
+### REST
+
+```txt
+GET /books
+GET /books/{id}
+POST /books
+```
+
+### RPC
+
+```txt
+POST /getBook
+POST /createBook
+```
+
+### GraphQL
+
+```graphql
+query {
+  book(id: 1) {
+    title
+    author
+  }
+}
+```
+
+A small service layer is used so REST, RPC and GraphQL share the same business logic.
+
+Folder:
+
+```txt
+book-info-service/
+```
 
 ## Author
 

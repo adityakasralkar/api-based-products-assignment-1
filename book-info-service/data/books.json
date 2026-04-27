@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "title": "Clean Code",
+    "author": "Robert C. Martin",
+    "genre": "Software Engineering",
+    "publishedYear": 2008
+  },
+  {
+    "id": 2,
+    "title": "The Pragmatic Programmer",
+    "author": "Andrew Hunt and David Thomas",
+    "genre": "Software Engineering",
+    "publishedYear": 1999
+  },
+  {
+    "id": 3,
+    "title": "Designing Data-Intensive Applications",
+    "author": "Martin Kleppmann",
+    "genre": "System Design",
+    "publishedYear": 2017
+  },
+  {
+    "id": 4,
+    "title": "Refactoring",
+    "author": "Martin Fowler",
+    "genre": "Software Engineering",
+    "publishedYear": 1999
+  },
+  {
+    "id": 5,
+    "title": "Domain-Driven Design",
+    "author": "Eric Evans",
+    "genre": "Software Architecture",
+    "publishedYear": 2003
+  },
+  {
+    "id": 6,
+    "title": "You Don't Know JS",
+    "author": "Kyle Simpson",
+    "genre": "JavaScript",
+    "publishedYear": 2015
+  },
+  {
+    "id": 7,
+    "title": "Eloquent JavaScript",
+    "author": "Marijn Haverbeke",
+    "genre": "JavaScript",
+    "publishedYear": 2018
+  },
+  {
+    "id": 8,
+    "title": "Head First Design Patterns",
+    "author": "Eric Freeman and Elisabeth Robson",
+    "genre": "Design Patterns",
+    "publishedYear": 2004
+  },
+  {
+    "id": 9,
+    "title": "Introduction to Algorithms",
+    "author": "Thomas H. Cormen",
+    "genre": "Algorithms",
+    "publishedYear": 2009
+  },
+  {
+    "id": 10,
+    "title": "API Design Patterns",
+    "author": "JJ Geewax",
+    "genre": "API Design",
+    "publishedYear": 2021
+  }
+]
