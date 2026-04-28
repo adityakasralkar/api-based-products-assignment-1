@@ -54,6 +54,12 @@ Server runs at:
 http://localhost:3000
 ```
 
+To run on another port:
+
+```bash
+PORT=4000 npm start
+```
+
 ---
 
 ## REST API

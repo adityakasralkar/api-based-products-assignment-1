@@ -7,7 +7,7 @@ const schema = require("./graphql/schema");
 const rootValue = require("./graphql/resolver");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
