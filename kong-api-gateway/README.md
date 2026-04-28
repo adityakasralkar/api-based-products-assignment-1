@@ -18,13 +18,19 @@ Request size limit: 1 MB
 ## Folder Structure
 
 ```txt
-question-2-kong-api-gateway/
+kong-api-gateway/
 │
 ├── README.md
 ├── kong-config.yml
 ├── docker-compose.yml
 ├── mock-api/
 │   └── server.js
+├── images/
+│   ├── 1-docker-up.png
+│   ├── 2-kong-logs.png
+│   ├── 3-mock-api-running.png
+│   ├── 4-rate-limit-test.png
+│   └── 5-request-size-test.png
 └── test-rate-limit.js
 ```
 
@@ -42,7 +48,7 @@ Client calls:
 http://localhost:8000/api/books
 ```
 
-Kong forwards allowed requests to the backend mock API.
+Kong forwards only valid requests to the backend mock API.
 
 ---
 
@@ -58,11 +64,13 @@ limit_by: ip
 
 This allows only **5 requests per minute** from one IP.
 
-If the limit is crossed, Kong returns:
+If the limit is exceeded, Kong returns:
 
 ```http
 429 Too Many Requests
 ```
+
+---
 
 ### 2. Request Size Limiting
 
@@ -82,15 +90,8 @@ If the payload is larger than 1 MB, Kong returns:
 
 ## Run the Setup
 
-Go to this folder:
-
 ```bash
-cd question-2-kong-api-gateway
-```
-
-Start Kong and mock API:
-
-```bash
+cd kong-api-gateway
 docker compose up -d
 ```
 
@@ -123,8 +124,6 @@ HTTP/1.1 200 OK
 ---
 
 ## Test Rate Limiting
-
-Run:
 
 ```bash
 node test-rate-limit.js
@@ -160,6 +159,8 @@ Expected:
 HTTP/1.1 413 Payload Too Large
 ```
 
+---
+
 ### Windows PowerShell
 
 ```powershell
@@ -175,11 +176,40 @@ Expected:
 
 ---
 
-## Stop the Setup
+## Execution Screenshots
 
-```bash
-docker compose down
-```
+### 1. Starting Kong and Mock API
+
+![Docker Setup](./images/1-docker-up.png)
+
+---
+
+### 2. Kong Gateway Logs
+
+![Kong Logs](./images/2-kong-logs.png)
+
+---
+
+### 3. Mock API Running
+
+![Mock API](./images/3-mock-api-running.png)
+
+---
+
+### 4. Rate Limiting Test
+
+- First 5 requests → 200 OK  
+- 6th request → 429 Too Many Requests  
+
+![Rate Limit Test](./images/4-rate-limit-test.png)
+
+---
+
+### 5. Request Size Limiting Test
+
+- Request blocked with **413 Payload Too Large**
+
+![Request Size Test](./images/5-request-size-test.png)
 
 ---
 
@@ -187,10 +217,10 @@ docker compose down
 
 This implementation shows how Kong API Gateway can protect backend APIs using:
 
-- Rate limiting
-- Request size limiting
+- Rate limiting (to control request frequency)
+- Request size limiting (to prevent large payloads)
 
-Expected status codes:
+### Expected Status Codes
 
 | Scenario | Status Code |
 |---|---|
